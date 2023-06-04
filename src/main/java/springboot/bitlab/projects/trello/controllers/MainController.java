@@ -55,7 +55,7 @@ public class MainController {
         if (folder == null) {
             return "redirect:/";
         }
-        task.setStatus(1);
+        task.setStatus(0);
         task.setFolder(folder);
         taskService.save(task);
         return "redirect:/folder/details/" + folderId;
@@ -73,4 +73,15 @@ public class MainController {
         return "redirect:/folder/details/" + folderId;
     }
 
+    @PostMapping("/folder/detach/category")
+    public String detachCategory(@RequestParam Long folderId, @RequestParam Long categoryId) {
+        Folder folder = folderService.findById(folderId);
+        Category category = categoryService.findById(categoryId);
+        if (folder == null || category == null) {
+            return "redirect:/";
+        }
+        folder.getCategories().remove(category);
+        folderService.save(folder);
+        return "redirect:/folder/details/" + folderId;
+    }
 }

@@ -27,7 +27,7 @@ public class Task {
     private String description; // TEXT
 
     @Column(name = "status")
-    private int status;  // 0 - todo, 1 - intest, 2 - done, 3 - failed
+    private int status;  // 0 - to do, 1 - in test, 2 - done, 3 - failed
 
     @ManyToOne(fetch = FetchType.EAGER,
             cascade = CascadeType.ALL, optional = false,

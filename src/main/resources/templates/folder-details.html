@@ -1,7 +1,7 @@
 <!doctype html>
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layouts/base.html"
       xmlns:th="http://www.thymeleaf.org">
-<div layout:fragment="content" class="mt-5">
+<div layout:fragment="content" class="mt-2">
     <div>
         <div class="row  justify-content-between">
             <div class="card col-12 mt-3">
@@ -13,10 +13,37 @@
                     </div>
                     <div class="mt-2">
                            <span>
-                               <button style="margin-left: 10px" class="btn btn-sm btn-primary"
-                                       th:each="category : ${folder.categories}" th:text="${category.name} + '  x  '">
+                               <button style="margin-left: 10px" class="btn btn-sm btn-primary removeCatModalButton" data-toggle="modal"
+
+                                       data-target="#removeCategoryModal"
+                                       th:each="category : ${folder.categories}" th:text="${category.name} + '  x  '"
+                                        th:data="${category.id}">
                                </button>
-                                <button th:if="${categories.size() > 0}" type="button" style="background-color: white; color: black;border: none"
+
+                             <div class="modal fade " id="removeCategoryModal" tabindex="-1" role="dialog"
+                                  aria-labelledby="removeCategoryModalLabel" aria-hidden="true">
+                                  <div class="modal-dialog" role="document">
+                                        <form id="removeCategoryForm" class="modal-content" th:action="@{'/folder/detach/category'}" method="post">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title " id="removeCategoryModalLabel">REMOVE CATEGORY</h5>
+                                                <button style="border: none" type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">x</button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="form-group col-12" id="modal-body-data">
+                                                    <label > Do you want to remove category ? </label>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <input type="hidden" name="folderId" th:value="${folder.id}">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">CLOSE</button>
+                                                <button  type="submit" class="btn btn-success">REMOVE</button>
+                                            </div>
+                                        </form>
+                                  </div>
+                            </div>
+                                <button th:if="${categories.size() > 0}" type="button"
+                                        style="background-color: white; color: black;border: none"
                                         data-toggle="modal" data-target="#exampleModal"><strong>+Add Category</strong>
                                 </button>
                                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
@@ -32,7 +59,7 @@
                                         <div class="modal-body">
                                             <div class="form-group col-12">
                                                 <label>CATEGORIES:</label>
-                                                <select name="categoryId"  class="form-control">
+                                                <select name="categoryId" class="form-control">
                                                     <option th:each="category : ${categories}"
                                                             th:value="${category.id}"
                                                             th:text="${category.name}"></option>
@@ -107,7 +134,11 @@
                 <tr th:each="task : ${tasks}">
                     <th scope="row" th:text="${task.id}"></th>
                     <td th:text="${task.title}"></td>
-                    <td th:text="${task.status}"></td>
+                    <td >
+                        <h6 th:text="${task.status == 0 ? 'TO DO' : task.status == 1 ? 'IN TEST' : task.status == 2 ? 'DONE' : 'FAILED' }"
+                              th:class="${task.status == 0 ? 'text-primary' : task.status == 1 ? 'text-warning' : task.status == 2 ? 'text-success' : 'text-danger'}"></h6>
+
+                    </td>
                     <td>
                         <a th:href="@{'/task/details/'+${task.id}}" class="btn btn-primary btn-sm">Details</a>
                     </td>
@@ -116,7 +147,18 @@
             </table>
         </div>
     </div>
+    <script>
+        var modalButtons = document.querySelectorAll('.removeCatModalButton');
+        modalButtons.forEach(function(button) {
+            button.addEventListener('click', function(event) {
+                var button = event.target;
+                var categoryId = button.getAttribute('data');
+                document.getElementById('modal-body-data').innerHTML =
+                    `<label > Do you want to remove category ? </label>
+                    <input type="hidden" name="categoryId" value="${categoryId}" > `;
+            });
+        });
+    </script>
 </div>
-
 
 </html>
