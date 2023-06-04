@@ -17,7 +17,6 @@ import springboot.bitlab.projects.trello.services.CommentService;
 import springboot.bitlab.projects.trello.services.FolderService;
 import springboot.bitlab.projects.trello.services.TaskService;
 
-import java.util.HashSet;
 import java.util.List;
 
 @Controller
@@ -34,6 +33,11 @@ public class MainController {
     public String index(Model model) {
         model.addAttribute("folders", folderService.findAll());
         return "index";
+    }
+    @GetMapping(value = "/categories")
+    public String categories(Model model) {
+        model.addAttribute("categories", categoryService.findAll());
+        return "category";
     }
     @PostMapping(value = "/folder/create")
     public String createFolder(Folder folder) {
@@ -118,5 +122,10 @@ public class MainController {
 
         taskService.delete(task);
         return "redirect:/folder/details/" + task.getFolder().getId();
+    }
+    @PostMapping("/create/category")
+    public String createCategory(Category category) {
+        categoryService.save(category);
+        return "redirect:/categories";
     }
 }

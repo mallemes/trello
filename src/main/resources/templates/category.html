@@ -1,0 +1,53 @@
+<!doctype html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layouts/base.html"
+      xmlns:th="http://www.thymeleaf.org">
+
+
+<div layout:fragment="content" class="mt-3">
+    <div>
+        <!-- Button trigger modal -->
+        <button type="button" style="background-color: white; color: black;border: none" data-toggle="modal" data-target="#exampleModal">
+            <strong>+New Category</strong>
+        </button>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <form class="modal-content" th:action="@{'/create/category'}" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Category create</h5>
+                    <button style="border: none" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        x
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group col-12">
+                        <label >NAME:</label>
+                        <input name="name" type="text" class="form-control mt-2" placeholder="Insert name:">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">CLOSE</button>
+                    <button type="submit" class="btn btn-success">ADD CATEGORY</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div >
+        <div class="row  justify-content-between">
+            <div class="card col-12 mt-3" th:each="category : ${categories}">
+                <div class="card-header">
+                </div>
+                <div class="card-body">
+                    <div>
+                        <h2 th:text="${category.name}"></h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</html>

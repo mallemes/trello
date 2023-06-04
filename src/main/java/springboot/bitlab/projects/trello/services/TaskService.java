@@ -3,7 +3,6 @@ package springboot.bitlab.projects.trello.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import springboot.bitlab.projects.trello.models.Comment;
-import springboot.bitlab.projects.trello.models.Folder;
 import springboot.bitlab.projects.trello.models.Task;
 import springboot.bitlab.projects.trello.repositories.TaskRepository;
 
