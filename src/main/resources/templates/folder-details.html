@@ -1,0 +1,122 @@
+<!doctype html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layouts/base.html"
+      xmlns:th="http://www.thymeleaf.org">
+<div layout:fragment="content" class="mt-5">
+    <div>
+        <div class="row  justify-content-between">
+            <div class="card col-12 mt-3">
+                <div class="card-header">
+                </div>
+                <div class="card-body">
+                    <div>
+                        <h2 th:text="${folder.name}"></h2>
+                    </div>
+                    <div class="mt-2">
+                           <span>
+                               <button style="margin-left: 10px" class="btn btn-sm btn-primary"
+                                       th:each="category : ${folder.categories}" th:text="${category.name} + '  x  '">
+                               </button>
+                                <button th:if="${categories.size() > 0}" type="button" style="background-color: white; color: black;border: none"
+                                        data-toggle="modal" data-target="#exampleModal"><strong>+Add Category</strong>
+                                </button>
+                               <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                                    aria-labelledby="exampleModalLabel"
+                                    aria-hidden="true">
+                                   <div class="modal-dialog" role="document">
+                                    <form class="modal-content" th:action="@{'/folder/attach/category'}" method="post">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">ASSIGN CATEGORY</h5>
+                                            <button style="border: none" type="button" class="close"
+                                                    data-dismiss="modal" aria-label="Close">x</button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-group col-12">
+                                                <label>CATEGORIES:</label>
+                                                <select name="categoryId"  class="form-control">
+                                                    <option th:each="category : ${categories}"
+                                                            th:value="${category.id}"
+                                                            th:text="${category.name}"></option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <input type="hidden" name="folderId" th:value="${folder.id}">
+
+                                            <button type="button" class="btn btn-secondary"
+                                                    data-dismiss="modal">CLOSE</button>
+                                            <button type="submit" class="btn btn-success">ADD</button>
+                                        </div>
+                                    </form>
+                                </div>
+                               </div>
+                           </span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!--add task modal button-->
+        <div class="mt-3 mb-3">
+            <button type="button" style="background-color: white; color: black;border: none"
+                    data-toggle="modal" data-target="#addTask">
+                <strong>+NEW TASK</strong>
+            </button>
+        </div>
+        <!--add task modal -->
+        <div class="modal fade" id="addTask" tabindex="-1" role="dialog" aria-labelledby="addTaskLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <form class="modal-content" th:action="@{'/task/create'}" method="post">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addTaskLabel">ADD TASK</h5>
+                        <button style="border: none" type="button" class="close" data-dismiss="modal"
+                                aria-label="Close">
+                            x
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group col-12">
+                            <label>TITLE:</label>
+                            <input name="title" type="text" class="form-control mt-2" placeholder="Insert title:">
+                        </div>
+                        <div class="form-group col-12 mt-3">
+                            <label>DESCRIPTION:</label>
+                            <textarea class="form-control" name="description"
+                                      placeholder="Insert description:"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="hidden" name="folderId" th:value="${folder.id}">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">CLOSE</button>
+                        <button type="submit" class="btn btn-success">ADD TASK</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col" width="10%">ID</th>
+                    <th scope="col" width="70%">Task Name</th>
+                    <th scope="col" width="10%">Status</th>
+                    <th scope="col" width="10%">Details</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="task : ${tasks}">
+                    <th scope="row" th:text="${task.id}"></th>
+                    <td th:text="${task.title}"></td>
+                    <td th:text="${task.status}"></td>
+                    <td>
+                        <a th:href="@{'/task/details/'+${task.id}}" class="btn btn-primary btn-sm">Details</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+</html>

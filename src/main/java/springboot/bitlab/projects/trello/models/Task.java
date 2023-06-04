@@ -3,6 +3,7 @@ package springboot.bitlab.projects.trello.models;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.List;
 
@@ -11,6 +12,7 @@ import java.util.List;
 @Table(name = "t_tasks")
 @Getter
 @Setter
+@ToString
 public class Task {
 
     @Id
@@ -27,8 +29,16 @@ public class Task {
     @Column(name = "status")
     private int status;  // 0 - todo, 1 - intest, 2 - done, 3 - failed
 
-    @Column(name = "folder")
-    private int folder; // Many To One
+    @ManyToOne(fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL, optional = false,
+            targetEntity = Folder.class)
+    private Folder folder; // Many To One
 
-
+    @OneToMany(
+            fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL,
+            targetEntity = Comment.class,
+            mappedBy = "task"
+    )
+    private List<Comment> comments; // One To Many
 }

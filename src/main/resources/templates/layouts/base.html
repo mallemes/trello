@@ -11,9 +11,9 @@
           integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
 </head>
 <body>
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="/">SRM System</a>
+<nav class="navbar navbar-expand-lg bg-light" >
+    <div class="container-fluid" >
+        <a class="navbar-brand" th:href="@{'/'}">Trello</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -21,23 +21,16 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/">Home</a>
+                    <a class="nav-link active" aria-current="page" th:href="@{'/'}">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{'/'}">All requests</a>
+                    <a class="nav-link" th:href="@{'/'}">All folders</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{'/'}">New requests</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{'/add-request'}">+Add request</a>
+                    <a class="nav-link" th:href="@{'/'}">Categories</a>
                 </li>
 
             </ul>
-            <form class="d-flex" role="search">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
         </div>
     </div>
 </nav>

@@ -19,6 +19,11 @@ public class Folder {
     @Column(name = "name")
     private String name;
 
-    @ManyToMany
-    private List<Category> categories; // Many To Many
+    @ManyToMany(fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL, targetEntity = Category.class)
+    private List<Category> categories; // Many To Many bidirectional
+
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL,
+            targetEntity = Task.class, mappedBy = "folder")
+    private  List<Task> tasks; // One To Many
 }
