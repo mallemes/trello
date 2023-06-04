@@ -20,10 +20,10 @@ public class Folder {
     private String name;
 
     @ManyToMany(fetch = FetchType.EAGER,
-            cascade = CascadeType.ALL, targetEntity = Category.class)
+            targetEntity = Category.class)
     private List<Category> categories; // Many To Many bidirectional
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL,
+    @OneToMany(fetch = FetchType.EAGER,
             targetEntity = Task.class, mappedBy = "folder")
     private  List<Task> tasks; // One To Many
 }

@@ -30,7 +30,6 @@ public class Task {
     private int status;  // 0 - to do, 1 - in test, 2 - done, 3 - failed
 
     @ManyToOne(fetch = FetchType.EAGER,
-            cascade = CascadeType.ALL, optional = false,
             targetEntity = Folder.class)
     private Folder folder; // Many To One
 

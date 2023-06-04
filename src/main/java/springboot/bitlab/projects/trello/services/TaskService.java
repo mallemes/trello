@@ -20,7 +20,7 @@ public class TaskService {
     }
 
     public void delete(Task task) {
-        taskRepository.delete(task);
+        taskRepository.deleteById(task.getId());
     }
 
     public Task findById(Long id) {

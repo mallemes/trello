@@ -20,7 +20,7 @@ public class Category {
     @Column(name = "name")
     private String name;
 
-    @ManyToMany( fetch = FetchType.EAGER, cascade = CascadeType.ALL,
+    @ManyToMany( fetch = FetchType.EAGER,
             targetEntity = Folder.class , mappedBy = "categories")
     private List<Folder> folders; // Many To Many  bidirectional
 

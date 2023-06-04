@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import springboot.bitlab.projects.trello.models.Category;
+import springboot.bitlab.projects.trello.models.Comment;
 import springboot.bitlab.projects.trello.models.Folder;
 import springboot.bitlab.projects.trello.models.Task;
 import springboot.bitlab.projects.trello.services.CategoryService;
+import springboot.bitlab.projects.trello.services.CommentService;
 import springboot.bitlab.projects.trello.services.FolderService;
 import springboot.bitlab.projects.trello.services.TaskService;
 
@@ -26,6 +28,7 @@ public class MainController {
     private final FolderService folderService;
     private final TaskService taskService;
     private final CategoryService categoryService;
+    private final CommentService commentService;
 
     @GetMapping(value = "/")
     public String index(Model model) {
@@ -83,5 +86,37 @@ public class MainController {
         folder.getCategories().remove(category);
         folderService.save(folder);
         return "redirect:/folder/details/" + folderId;
+    }
+    @GetMapping("/task/details/{taskId}")
+    public String taskDetails(@PathVariable Long taskId, Model model) {
+        Task task = taskService.findById(taskId);
+        if (task == null)
+            return "redirect:/";
+
+        model.addAttribute("task", task);
+        return "task-details";
+    }
+    @PostMapping("/comment/create")
+    public String createComment( Comment comment) {
+        commentService.save(comment);
+        return "redirect:/task/details/" + comment.getTask().getId();
+    }
+    @PostMapping("/task/change/status/{taskId}")
+    public String changeTaskStatus(@PathVariable Long taskId, @RequestParam int status) {
+        Task task = taskService.findById(taskId);
+        if (task == null)
+            return "redirect:/";
+        task.setStatus(status);
+        taskService.save(task);
+        return "redirect:/task/details/" + taskId;
+    }
+    @PostMapping("/delete/task/{taskId}")
+    public String deleteTask(@PathVariable Long taskId) {
+        Task task = taskService.findById(taskId);
+        if (task == null)
+            return "redirect:/";
+
+        taskService.delete(task);
+        return "redirect:/folder/details/" + task.getFolder().getId();
     }
 }
