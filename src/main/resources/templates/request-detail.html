@@ -1,0 +1,64 @@
+<!doctype html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layouts/base.html"
+      xmlns:th="http://www.thymeleaf.org">
+<div layout:fragment="content" class="mt-5">
+    <h2 th:if="${request.handled}" class="text-center" th:text="'***NEW PENDING REQUEST***'"
+        th:style="'color: red'"></h2>
+    <h2 th:unless="${request.handled}" class="text-center" th:text="'PROCCESSED REQUEST'" style="color: green"></h2>
+    <form method="post" th:action="@{'/update-request'}" class="d-flex  flex-column align-items-center p-2">
+        <div class="form-group col-7">
+            <label>USERNAME:</label>
+            <input readonly name="userName" type="text" class="form-control mt-2" th:value="${request.userName}">
+        </div>
+        <div class="form-group col-7 mt-3">
+            <label>COURSE:</label>
+            <select class="form-control" name="course.id">
+                <option th:each="course : ${courses}" th:selected="${course == request.course}"
+                        th:value="${course.id}" th:text="${course.name}">
+                </option>
+            </select>
+        </div>
+        <div class="form-group col-7 mt-3">
+            <label>PHONE:</label>
+            <input readonly type="tel" name="phone" class="form-control mt-2" th:value="${request.phone}">
+        </div>
+        <div class="form-group col-7 mt-3">
+            <label>COMMENTARY:</label>
+            <textarea readonly class="form-control" name="commentary" th:text="${request.commentary}"></textarea>
+        </div>
+        <div class="form-group col-7 mt-3 mr-auto">
+            <span th:if="${request.handled}">
+             <input type="hidden" th:value="${request.id}" name="id">
+                <button type="submit" class="btn btn-success">UPDATE REQUEST</button>
+            </span>
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">DELETE
+                REQUEST
+            </button>
+        </div>
+    </form>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">x</span>
+                    </button>
+                </div>
+                <form th:action="@{'/delete-request/'+${request.id}}" method="post">
+                    <div class="modal-body">
+                        delete ?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

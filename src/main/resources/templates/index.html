@@ -1,0 +1,25 @@
+<!doctype html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layouts/base.html"
+      xmlns:th="http://www.thymeleaf.org">
+
+<div layout:fragment="content" class="mt-5">
+    <div >
+        <div class="row row-cols-2 justify-content-between">
+            <div class="card col-5 mt-3" th:each="request : ${requests}">
+                <div class="card-header">
+                    <span th:if="${request.handled}" th:text="'*(New)'" th:style="'color: red'"></span>
+                     Request by <strong th:text="${request.userName}"></strong>
+                </div>
+                <div class="card-body">
+                    <p class="card-title" th:text="'Course: '+${request.course.name}"></p>
+                    <p class="card-text" th:text="${request.commentary}"></p>
+                    <span class="card-title" th:text="'Phone: '+${request.phone}"></span>
+                    <a th:href="@{'/request-details/'+${request.id}}" class="btn btn-primary btn-sm">Details</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</html>
